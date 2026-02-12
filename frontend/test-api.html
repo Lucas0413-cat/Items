@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API测试</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+<body>
+    <h1>API测试页面</h1>
+    <button onclick="testHealthCheck()">测试健康检查</button>
+    <button onclick="testGenerateQuestions()">测试生成题目</button>
+    <div id="results"></div>
+
+    <script>
+        function log(message) {
+            const results = document.getElementById('results');
+            results.innerHTML += '<p>' + new Date().toLocaleString() + ': ' + message + '</p>';
+            console.log(message);
+        }
+
+        async function testHealthCheck() {
+            log('开始测试健康检查...');
+            try {
+                log('调用URL: /api/health');
+                const response = await axios.get('/api/health', { timeout: 30000 });
+                log('健康检查成功: ' + JSON.stringify(response.data));
+                log('状态码: ' + response.status);
+            } catch (error) {
+                log('健康检查失败: ' + error.message);
+                if (error.response) {
+                    log('响应状态: ' + error.response.status);
+                    log('响应数据: ' + JSON.stringify(error.response.data));
+                } else if (error.request) {
+                    log('请求发送但无响应');
+                }
+            }
+        }
+
+        async function testGenerateQuestions() {
+            log('开始测试生成题目...');
+            try {
+                log('调用URL: /api/generate-questions');
+                const data = {
+                    section: 'reading',
+                    difficulty: 'medium',
+                    count: 1,
+                    keyword: 'globalization'
+                };
+                const response = await axios.post('/api/generate-questions', data, { timeout: 60000 });
+                log('生成题目成功，数据长度: ' + JSON.stringify(response.data).length + ' 字符');
+                log('状态码: ' + response.status);
+                log('返回数据: ' + JSON.stringify(response.data).substring(0, 500) + '...');
+            } catch (error) {
+                log('生成题目失败: ' + error.message);
+                if (error.response) {
+                    log('响应状态: ' + error.response.status);
+                    log('响应数据: ' + JSON.stringify(error.response.data));
+                } else if (error.request) {
+                    log('请求发送但无响应');
+                }
+            }
+        }
+    </script>
+</body>
+</html>

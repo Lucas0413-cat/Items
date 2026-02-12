@@ -3,3 +3,5 @@ Flask-CORS
 requests
 pydantic
 python-dotenv
+gtts
+playsound==1.2.2

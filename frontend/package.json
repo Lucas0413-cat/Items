@@ -1,7 +1,7 @@
 {
   "name": "ielts-practice-frontend",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.2.2",
 
   "scripts": {
     "dev": "vite",
@@ -42,7 +42,16 @@
       "dist/**/*"
     ],
     "extraFiles": [
-      "backend/.env"
+      {
+        "from": "../backend",
+        "to": "resources/backend",
+        "filter": [
+          "**/*",
+          "!.git",
+          "!.git/**",
+          "!.gitignore"
+        ]
+      }
     ],
     "win": {
       "target": "nsis",

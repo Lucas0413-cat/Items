@@ -16,7 +16,7 @@ dist/
 frontend/dist/
 frontend/dist-electron/
 frontend/.env
-backend/.env
+# backend/.env is intentionally NOT ignored - needed for packaged app
 
 # Runtime data
 *.log
